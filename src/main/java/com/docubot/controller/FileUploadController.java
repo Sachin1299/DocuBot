@@ -26,11 +26,7 @@ public class FileUploadController {
 			if(file.isEmpty()||file.getSize()==0) {
 				return ResponseEntity.badRequest().body(new DocumentTextResponse("File is Empty"));
 			}
-			if("text/plain".equals(file.getContentType())) {
-				String result = processingService.extractTexttxt(file);
-				return ResponseEntity.ok().body(new DocumentTextResponse(result));
-			}
-		    String result = processingService.extractTextPDF(file);
+		    String result = processingService.extractText(file);
 			System.out.println(file.getContentType()+"file readed successfully");
 			return ResponseEntity.ok().body(new DocumentTextResponse(result));
 		

@@ -7,13 +7,15 @@ import java.io.InputStreamReader;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class DocumentProcessingService {
 
-	public String extractTextPDF(MultipartFile file) {
+	private String extractTextPDF(MultipartFile file) {
 		try(InputStream is = file.getInputStream();PDDocument document = PDDocument.load(is)){
 			PDFTextStripper stripper = new PDFTextStripper();
 			return stripper.getText(document);
@@ -23,7 +25,20 @@ public class DocumentProcessingService {
 		}
 	}
 	
-	public String extractTexttxt(MultipartFile file) {
+	private String extractTextDoc(MultipartFile file) {
+		try(InputStream is = file.getInputStream(); XWPFDocument document = new XWPFDocument(is)){
+			StringBuilder builder = new StringBuilder();
+			for(XWPFParagraph para : document.getParagraphs()) {
+				builder.append(para.getText()).append("\n");
+			}
+			return builder.toString();
+		} catch (IOException e) {
+			throw new RuntimeException("Failed to extract text from DOCX: " + e.getMessage());
+		}
+		
+	}
+	
+	private String extractTexttxt(MultipartFile file) {
 		try(InputStreamReader input = new InputStreamReader(file.getInputStream()); BufferedReader reader = new BufferedReader(input)){
 			StringBuilder builder = new StringBuilder();
 			String line;
@@ -36,6 +51,25 @@ public class DocumentProcessingService {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public String extractText(MultipartFile file) {
+		String FileName = file.getOriginalFilename();
+		if(FileName == null) {
+			throw new RuntimeException("File must have a name");
+		}
+		if(FileName.endsWith(".pdf")) {
+			return extractTextPDF(file);
+		}
+		else if(FileName.endsWith(".txt")) {
+			return extractTexttxt(file);
+		}
+		else if(FileName.endsWith(".docx")) {
+			return extractTextDoc(file);
+		}
+		else {
+			throw new RuntimeException("Unsupported File Type");
+		}
 	}
 	
 }

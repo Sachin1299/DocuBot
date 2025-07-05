@@ -1,23 +1,18 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import BotAttachFile from './components/BotAttachFile';
+import BotTextArea from './components/BotTextArea';
+import SendButton from './components/SendButton';
+
 
 function App() {
+  const [message,setMessage] = useState();
+  const [file, setFile] = useState();
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BotTextArea message={message} setMessage={setMessage}/>
+      <BotAttachFile file={file} setFile={setFile}/>
+      <SendButton message={message} file={file}/>
     </div>
   );
 }

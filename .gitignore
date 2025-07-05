@@ -1,24 +1,53 @@
-# Compiled class file
-*.class
+# ==============================
+# Java / Spring Boot (Backend)
+# ==============================
+/backend/target/
+/backend/.classpath
+/backend/.project
+/backend/.settings/
+/backend/*.iml
+/backend/.idea/
 
-# Log file
+# Logs
+/backend/*.log
+/backend/logs/
+/backend/*.tmp
+
+# OS files
+/backend/.DS_Store
+
+# IDE
+/backend/.vscode/
+
+# ==============================
+# Node.js / React (Frontend)
+# ==============================
+/Frontend/node_modules/
+/Frontend/build/
+/Frontend/.env.local
+/Frontend/.env.development.local
+/Frontend/.env.test.local
+/Frontend/.env.production.local
+/Frontend/.DS_Store
+/Frontend/npm-debug.log*
+/Frontend/yarn-debug.log*
+/Frontend/yarn-error.log*
+/Frontend/.eslintcache
+
+# IDE
+/Frontend/.idea/
+/Frontend/.vscode/
+/Frontend/*.iml
+
+# ==============================
+# Root-level ignores (optional)
+# ==============================
 *.log
-
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-replay_pid*
+*.tmp
+.env
+*.iml
+*.swp
+.DS_Store
+.idea/
+.vscode/
+*.class

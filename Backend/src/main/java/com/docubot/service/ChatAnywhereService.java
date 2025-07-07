@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -61,7 +63,7 @@ public class ChatAnywhereService {
 	public AskQuestionResponse getAnswer(AskQuestionRequest request) {
 
         // Construct prompt using document text + question
-        String systemPrompt = "You are a document assistant. Answer based only on the provided document.";
+        String systemPrompt = "You are a document assistant. Answer based on the provided document and currentDate is "+ LocalDate.now().format(DateTimeFormatter.ofPattern("MMMM dd, yyyy"));
         String userPrompt = "Document:\n" + request.getDocumentText() + "\n\nQuestion:\n" + request.getQuestion();
 
         // Build request body
@@ -69,6 +71,7 @@ public class ChatAnywhereService {
         requestBody.put("model", "gpt-3.5-turbo");
 
         List<Map<String, String>> messages = new ArrayList<>();
+        //messages.add(Map.of("currentDate", LocalDate.now().format(DateTimeFormatter.ofPattern("MMMM dd, yyyy"))));
         messages.add(Map.of("role", "system", "content", systemPrompt));
         messages.add(Map.of("role", "user", "content", userPrompt));
 

@@ -1,12 +1,15 @@
 
 
+export default function SendButton({ handleSend, loading, setLoading }) {
+  const handleClick = async () => {
+    setLoading(true);
+    await handleSend();
+    setLoading(false);
+  };
 
-export default function SendButton({message,file}){
-    return(
-        <>
-        <div>
-            <button>Send</button>
-        </div>
-        </>
-    )
+  return (
+    <button className="send-button" onClick={handleClick}>
+      {loading ? "Sending..." : "➤"}
+    </button>
+  );
 }

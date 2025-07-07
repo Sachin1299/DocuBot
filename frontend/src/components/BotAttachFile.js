@@ -1,14 +1,18 @@
-
-
- export default function BotAttachFile({file, setFile}){
-    return(
-        <>
-        <div>
+export default function BotAttachFile({ file, setFile }) {
+    const handleFileChange = (e) => {
+      setFile(e.target.files[0]);
+    };
+  
+    return (
+      <>
+        <label className="attach-icon" htmlFor="file-upload">📎 Attach</label>
         <input
-         onChange={(e)=>setFile(e.target.files[0])}
-         type={"file"} 
-         placeholder="upload file"/>
-        </div>
-        </>
-    )
-}
+          id="file-upload"
+          type="file"
+          onChange={handleFileChange}
+          className="file-input"
+        />
+      </>
+    );
+  }
+  

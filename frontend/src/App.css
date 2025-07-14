@@ -58,40 +58,6 @@
 }
 
 
-.chat-message {
-  max-width: 75%;
-  margin: 8px 0;
-  padding: 10px 15px;
-  border-radius: 20px;
-  font-size: 15px;
-  line-height: 1.5;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
-
-.user-message {
-  background-color: #dcf8c6;
-  align-self: flex-end;
-  border-bottom-right-radius: 0;
-  text-align: right;
-}
-
-.bot-message {
-  background-color: #f1f0f0;
-  align-self: flex-start;
-  border-bottom-left-radius: 0;
-  text-align: left;
-}
-
-.chat-body {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  flex: 1;
-  overflow-y: auto;
-  padding: 20px;
-  background-color: #f7f7f7;
-}
 .clear-button {
   background-color: #e0e0e0;
   border: none;

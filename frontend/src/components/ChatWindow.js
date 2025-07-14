@@ -1,3 +1,6 @@
+import "./ChatWindow.css"
+
+
 export default function ChatWindow({ chatHistory,chatEndRef,loading }) {
     return (
       <div className="chat-body">

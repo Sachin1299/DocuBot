@@ -20,8 +20,15 @@ function App() {
   };
 
   const handleResponse = async () => {
-    if (!file || !message.trim()) return;
+    if (!file || !message.trim()){
+      setChatHistory(prev => [...prev, { question: message, answer: "Please upload file first" }]);
+      setMessage('');
+    } 
+    else{
+
+    
     try {
+      setLoading(true);
       const fileResult = await uploadFile(file);
       const aiResult = await askQuestion(fileResult.content, message);
       setChatHistory(prev => [...prev, { question: message, answer: aiResult.response }]);
@@ -29,6 +36,7 @@ function App() {
     } catch (err) {
       console.error("AI Error:", err);
     }
+  }
   };
 
   useEffect(() => {
@@ -50,6 +58,7 @@ function App() {
           message={message}
           setMessage={setMessage}
           onEnterPress={handleResponse} // 💡 pass handler here
+          setLoading={setLoading}
         />
         <button className="clear-button" onClick={clearChat}>
           🧹 Clear

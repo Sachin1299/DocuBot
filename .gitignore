@@ -7,7 +7,7 @@
 /backend/.settings/
 /backend/*.iml
 /backend/.idea/
-/backend/src/main/resources/application.properties
+/Backend/src/main/resources/application.properties
 
 # Logs
 /backend/*.log

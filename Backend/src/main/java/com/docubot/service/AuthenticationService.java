@@ -1,0 +1,45 @@
+package com.docubot.service;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.docubot.config.JwtService;
+import com.docubot.dto.AuthenticationRequest;
+import com.docubot.dto.AuthenticationResponse;
+import com.docubot.entity.User;
+import com.docubot.repository.UserRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class AuthenticationService {
+
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
+
+    public AuthenticationResponse register(AuthenticationRequest request) {
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("Email already registered");
+        }
+
+        var user = User.builder().name(request.getEmail()).email(request.getEmail()).password(passwordEncoder.encode(request.getPassword())).build();
+
+        userRepository.save(user);
+        var jwtToken = jwtService.generateToken(user.getEmail());
+        return new AuthenticationResponse(jwtToken);
+    }
+
+    public AuthenticationResponse login(AuthenticationRequest request) {
+        var user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid email"));
+
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new IllegalArgumentException("Invalid password");
+        }
+
+        var jwtToken = jwtService.generateToken(user.getEmail());
+        return new AuthenticationResponse(jwtToken);
+    }
+}

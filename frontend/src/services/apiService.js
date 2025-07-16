@@ -7,6 +7,7 @@ export async function uploadFile(file) {
     const response = await fetch("http://localhost:8080/api/files/upload", {
       method: "POST",
       body: formData,
+      headers: {"Access-Control-Allow-Origin":"*"}
     });
   
     if (!response.ok) throw new Error("File upload failed");
@@ -21,7 +22,7 @@ export async function uploadFile(file) {
   
     const response = await fetch("http://localhost:8080/api/qa/ask", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json","Access-Control-Allow-Origin":"*" },
       body: JSON.stringify(finalBody),
     });
   

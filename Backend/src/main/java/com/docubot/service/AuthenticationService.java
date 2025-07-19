@@ -3,7 +3,6 @@ package com.docubot.service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.docubot.config.JwtService;
 import com.docubot.dto.AuthenticationRequest;
 import com.docubot.dto.AuthenticationResponse;
 import com.docubot.entity.User;
@@ -19,12 +18,12 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
-    public AuthenticationResponse register(AuthenticationRequest request) {
+    public AuthenticationResponse register(User request) {
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new IllegalArgumentException("Email already registered");
         }
 
-        var user = User.builder().name(request.getEmail()).email(request.getEmail()).password(passwordEncoder.encode(request.getPassword())).build();
+        var user = User.builder().name(request.getName()).email(request.getEmail()).password(passwordEncoder.encode(request.getPassword())).build();
 
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user.getEmail());

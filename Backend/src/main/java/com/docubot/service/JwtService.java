@@ -1,5 +1,5 @@
 
-	package com.docubot.config;
+	package com.docubot.service;
 
 	import io.jsonwebtoken.*;
 	import io.jsonwebtoken.security.Keys;

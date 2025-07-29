@@ -19,12 +19,12 @@ public class AuthenticationService {
     private final JwtService jwtService;
 
     public AuthenticationResponse register(User request) {
-        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+        if (!userRepository.findByEmail(request.getEmail()).isEmpty()) {
             throw new IllegalArgumentException("Email already registered");
         }
 
         var user = User.builder().name(request.getName()).email(request.getEmail()).password(passwordEncoder.encode(request.getPassword())).build();
-
+System.out.println("trying to save user");
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user.getEmail());
         return new AuthenticationResponse(jwtToken);

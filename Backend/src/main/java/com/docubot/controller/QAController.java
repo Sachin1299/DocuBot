@@ -21,7 +21,12 @@ public class QAController {
 
 	@PostMapping("/ask")
 	public ResponseEntity<AskQuestionResponse> askQuestion(@RequestBody AskQuestionRequest request){
-		AskQuestionResponse response = service.getAnswer(request);
-		return ResponseEntity.ok(response);
+		try {
+			AskQuestionResponse response = service.getAnswer(request);
+			return ResponseEntity.ok(response);
+		}catch(Exception e) {
+			return ResponseEntity.badRequest().build();
+		}
+
 	}
 }

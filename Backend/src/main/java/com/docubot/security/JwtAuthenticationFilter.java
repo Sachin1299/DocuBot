@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,16 +47,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain)
                                     throws ServletException, IOException {
-
-        final String authHeader = request.getHeader("Authorization");
-
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        try {
-            final String jwtToken = authHeader.substring(7);
+    	
+        try {   
+            final String jwtToken = jwtUtil.getJwtFromCookies(request);
+            System.out.println("Cookies : "+request.getCookies());
+            System.out.println("JwtToken: "+jwtToken);
             final String userEmail = jwtUtil.extractUsername(jwtToken);
 
             // If token is valid, configure Spring Security to manually set authentication
@@ -113,4 +109,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             // The 'return' is implicit as this is the end of the method execution path.
         }
     }
+    
+    
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getServletPath();
+        return path.startsWith("/api/auth/");
+    }
+
 }

@@ -13,11 +13,10 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(" http://localhost:8080/api/auth/login", {
-        email,
-        password,
-      });
-      localStorage.setItem("token", response.data);
+      const response = await axios.post(" https://localhost:8443/api/auth/login", 
+      { email, password}, 
+      { withCredentials: true });
+      console.log("token", response);
       navigate("/home");
     } catch (err) {
       setError("Invalid credentials. Please try again.");

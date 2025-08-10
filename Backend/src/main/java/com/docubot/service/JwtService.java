@@ -3,7 +3,10 @@
 
 	import io.jsonwebtoken.*;
 	import io.jsonwebtoken.security.Keys;
-	import org.springframework.stereotype.Service;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+
+import org.springframework.stereotype.Service;
 
 	import java.security.Key;
 	import java.util.Date;
@@ -55,6 +58,17 @@
 	    public boolean isTokenValid(String token, String userEmail) {
 	        final String username = extractUsername(token);
 	        return (username.equals(userEmail) && !isTokenExpired(token));
+	    }
+	    
+	    public String getJwtFromCookies(HttpServletRequest request) {
+	    	if(request.getCookies() != null) {
+	    		for(Cookie cookie : request.getCookies()) {
+	    			if(cookie.getName().equals("jwt")) {
+	    				return cookie.getValue();
+	    			}
+	    		}
+	    	}
+			return "";
 	    }
 	}
 

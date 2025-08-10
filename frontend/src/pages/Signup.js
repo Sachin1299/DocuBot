@@ -20,7 +20,7 @@ function Signup() {
   const handleSignup = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8080/api/auth/signup", user);
+      const response = await axios.post("https://localhost:8443/api/auth/signup", user);
       localStorage.setItem('token', response.data);
       navigate('/');
     } catch (err) {

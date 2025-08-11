@@ -6,6 +6,7 @@ import BotAttachFile from '../components/BotAttachFile';
 import BotTextArea from '../components/BotTextArea';
 import SendButton from '../components/SendButton';
 import { uploadFile, askQuestion } from '../services/apiService';
+import axios from 'axios';
 
 function Home() {
   const [message, setMessage] = useState('');
@@ -43,6 +44,23 @@ function Home() {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chatHistory]);
 
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const result = await axios.get(
+          "https://localhost:8443/api/auth/check",
+          { withCredentials: true }
+        );
+        console.log(result.data);
+      } catch (error) {
+        console.error("Auth check failed:", error);
+      }
+    };
+  
+    checkAuth(); // ✅ call it
+  }, []);
+  
+
   return (
     <div className="App">
       <Header />
@@ -57,7 +75,7 @@ function Home() {
         <BotTextArea
           message={message}
           setMessage={setMessage}
-          onEnterPress={handleResponse} // 💡 pass handler here
+          onEnterPress={handleResponse} // 
           setLoading={setLoading}
         />
         <button className="clear-button" onClick={clearChat}>
@@ -66,7 +84,7 @@ function Home() {
         <SendButton
           loading={loading}
           setLoading={setLoading}
-          handleSend={handleResponse} // 💡 pass handler here
+          handleSend={handleResponse} // 
         />
       </div>
     </div>

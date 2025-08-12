@@ -1,5 +1,5 @@
 // File: Login.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Login.css"; // We'll add custom styles here if needed
@@ -13,7 +13,7 @@ function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(" https://localhost:8443/api/auth/login", 
+      const response = await axios.post("https://localhost:8443/api/auth/login", 
       { email, password}, 
       { withCredentials: true });
       console.log("token", response);
@@ -22,6 +22,33 @@ function Login() {
       setError("Invalid credentials. Please try again.");
     }
   };
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const result = await axios.get(
+          "https://localhost:8443/api/auth/check",
+          { withCredentials: true }
+        );
+        
+        if (result.status === 200) {
+          navigate("/home");
+        }
+      } catch (error) {
+        // Silently handle expected auth failures
+        if (error.response?.status === 401 || error.response?.status === 403) {
+          // Expected - user not authenticated, stay on login page
+          return;
+        }
+        // Only log unexpected errors
+        console.error("Unexpected auth error:", error);
+      }
+    };
+  
+    checkAuth();
+  }, [navigate]);
+  
+  
 
   return (
     <div className="d-flex align-items-center justify-content-center vh-100 login-page">

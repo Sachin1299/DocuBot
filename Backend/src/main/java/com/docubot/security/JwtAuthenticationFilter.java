@@ -108,13 +108,35 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             // By not calling filterChain.doFilter(), we stop the request processing here.
             // The 'return' is implicit as this is the end of the method execution path.
         }
+        catch (Exception ex) {
+            // This block is executed when the token is invalid (e.g., tampered, expired)
+            // We directly create and send the 401 Unauthorized response
+
+            // Set the response status to 401 Unauthorized
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+
+            // Create a clear error message body
+            Map<String, Object> errorDetails = new HashMap<>();
+            errorDetails.put("message", "Invalid or expired JWT token.");
+            errorDetails.put("error", ex.getMessage());
+            
+            // Write the error message to the response body
+            response.getWriter().write(objectMapper.writeValueAsString(errorDetails));
+            
+            // By not calling filterChain.doFilter(), we stop the request processing here.
+            // The 'return' is implicit as this is the end of the method execution path.
+        }
+        
     }
     
     
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getServletPath();
-        return path.startsWith("/api/auth/");
+        return path.equals("/api/auth/login") ||
+               path.equals("/api/auth/signup") ||
+               path.equals("/api/auth/logout");
     }
 
 }

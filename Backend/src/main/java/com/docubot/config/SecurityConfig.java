@@ -38,7 +38,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 // 2. Permit all preflight (OPTIONS) requests
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/auth/login","/api/auth/signup", "/api/auth/logout").permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session

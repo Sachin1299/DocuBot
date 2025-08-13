@@ -64,7 +64,7 @@ function Home() {
     <div className="App">
       <Header />
       {file && (
-        <div className="file-info">
+        <div className="file-info sticky-header" >
           📄 <strong>{file.name}</strong> ({(file.size / 1024).toFixed(1)} KB)
         </div>
       )}

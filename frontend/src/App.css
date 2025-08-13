@@ -111,3 +111,14 @@
   0% { opacity: 0.2; }
   100% { opacity: 1; }
 }
+
+.sticky-header {
+  position: sticky; /* keeps it in flow below navbar */
+  top: 56px; /* height of the navbar */
+  background: white;
+  padding: 5px 10px;
+  border-bottom: 1px solid #ccc;
+  z-index: 1000;
+}
+
+

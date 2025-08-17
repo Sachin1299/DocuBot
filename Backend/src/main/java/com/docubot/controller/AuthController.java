@@ -34,24 +34,23 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody AuthenticationRequest request, HttpServletResponse response){
-        try {
-            String token = authservice.login(request).getToken();
-            ResponseCookie cookie = ResponseCookie.from("jwt", token)
-                    .httpOnly(true)    // JS can't access
-                    .secure(true)     // false for local HTTP, true in prod HTTPS
-                    .sameSite("None")  // ✅ Capital N
-                    .path("/")         // Send for all backend paths
-                    .maxAge(24 * 60 * 60) // Optional: 1 day
-                    .build();
+    public ResponseEntity<String> login(@RequestBody AuthenticationRequest request,
+                                        HttpServletResponse response){
+        // If service throws, it’s mapped by @RestControllerAdvice
+        String token = authservice.login(request).getToken();
 
-            response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+        ResponseCookie cookie = ResponseCookie.from("jwt", token)
+                .httpOnly(true)
+                .secure(true)
+                .sameSite("None")
+                .path("/")
+                .maxAge(24 * 60 * 60)
+                .build();
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
-            return ResponseEntity.ok(token);
-        } catch(Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-        }
+        return ResponseEntity.ok(token);
     }
+
     
     @GetMapping("/logout")
     public ResponseEntity<String> logout(HttpServletResponse response){

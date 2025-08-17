@@ -1,6 +1,7 @@
 package com.docubot.entity;
 
 import jakarta.persistence.*;
+
 import lombok.*;
 
 @Entity
@@ -18,6 +19,17 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    @Builder.Default
+    private Provider provider = Provider.LOCAL;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private Boolean enabled = true;
 }
+
+

@@ -1,12 +1,13 @@
 package com.docubot.service;
 
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.docubot.dto.AuthenticationRequest;
 import com.docubot.dto.AuthenticationResponse;
+import com.docubot.entity.Provider;
 import com.docubot.entity.User;
+import com.docubot.exception.GoogleAccountOnlyException;
 import com.docubot.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -32,18 +33,23 @@ public class AuthenticationService {
 		return new AuthenticationResponse(jwtToken);
 	}
 
+	// In AuthenticationService.login
 	public AuthenticationResponse login(AuthenticationRequest request) {
-		var user = userRepository.findByEmail(request.getEmail())
-				.orElseThrow(() -> new IllegalArgumentException("Invalid email"));
+	    var user = userRepository.findByEmail(request.getEmail())
+	        .orElseThrow(() -> new IllegalArgumentException("Invalid email"));
 
-		if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-			throw new IllegalArgumentException("Invalid password");
-		}
+	    // If you added Provider in User
+	    if (user.getProvider() == Provider.GOOGLE) {
+	        // Throw a typed exception you’ll map to 409, or return a special result
+	        throw new GoogleAccountOnlyException("This account uses Google Sign-In. Please continue with Google.");
+	    }
 
-		var jwtToken = jwtService.generateToken(user.getEmail());
-		
+	    if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+	        throw new IllegalArgumentException("Invalid credentials");
+	    }
 
-		
-		return new AuthenticationResponse(jwtToken);
+	    var jwtToken = jwtService.generateToken(user.getEmail());
+	    return new AuthenticationResponse(jwtToken);
 	}
+
 }

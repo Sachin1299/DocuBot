@@ -5,7 +5,7 @@ export default function ChatWindow({ chatHistory,chatEndRef,loading }) {
     return (
       <div className="chat-body">
       {chatHistory.length === 0 ? (
-        <div className="text-center text-muted mt-4">
+        <div className="text-center mt-4 themetext">
           👋 <i>Welcome to DocuBot — Upload a file & ask your question!</i>
         </div>
       ) : (

@@ -2,8 +2,8 @@
   display: flex;
   align-items: center;
   padding: 10px;
-  border-top: 1px solid #ccc;
-  background-color: #fff;
+  /* border-top: 1px solid var(--bg) ;  */
+  background-color: var(--chatbottombar) !important;
   gap: 10px;
   position: sticky;
   bottom: 0;
@@ -27,7 +27,7 @@
 }
 
 .attach-icon:hover {
-  background-color: #d5d5d5;
+  background-color: #ffffff;
 }
 
 .bot-textarea {
@@ -71,21 +71,22 @@
 }
 
 .clear-button:hover {
-  background-color: #d5d5d5;
+  background-color: #ffffff;
 }
 
 .file-info {
   padding: 10px 20px;
-  background-color: #fff;
+  background-color: var(--bg) !important;
   border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc;
   font-size: 0.95rem;
-  color: #333;
+  color: var(--text) !important;
 }
 
 
 .thinking-indicator {
   margin: 10px 0;
-  color: #555;
+  color:  var(--text) !important;
   font-style: italic;
   display: flex;
   align-items: center;
@@ -115,10 +116,18 @@
 .sticky-header {
   position: sticky; /* keeps it in flow below navbar */
   top: 56px; /* height of the navbar */
-  background: white;
   padding: 5px 10px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 0.5px solid #ccc;
   z-index: 1000;
+  color: var(--text) !important;
 }
 
+.header {
+  background-color: var(--chatbottombar) !important;
+  color: var(--text) !important;
+}
+
+.themetext{
+  color: var(--text) !important;
+}
 

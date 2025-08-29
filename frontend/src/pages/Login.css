@@ -1,8 +1,18 @@
-/* File: Login.css */
+/* File: Login.css
 .login-page {
     background: linear-gradient(to right, #667eea, #764ba2);
   }
   .card {
-    background-color: white;
+    background-color: var(--bg);
+  }
+   */
+
+
+   .login-page {
+    background: linear-gradient(to right, #667eea, #764ba2);
   }
   
+  .card {
+    background-color: var(--bg) !important; /* force override Bootstrap */
+    color: var(--text) !important;
+  }

@@ -150,10 +150,10 @@ function Signup() {
 
   return (
     <div className="login-page">
-      <div className="container d-flex align-items-center justify-content-center min-vh-100">
-        <div className="row shadow-lg bg-white rounded overflow-hidden">
+      <div className="container d-flex align-items-center justify-content-center min-vh-100 card">
+        <div className="row shadow-lg rounded overflow-hidden">
           {/* Left Column with Image */}
-          <div className="col-md-6 d-none d-md-block bg-light p-0">
+          <div className="col-md-6 d-none d-md-block p-0">
             <img
               src={signupimage}
               alt="Signup"
@@ -223,7 +223,7 @@ function Signup() {
 
             <GoogleOauth/>
 
-            <p className="mt-3 text-center text-muted">
+            <p className="mt-3 text-center ">
               Already have an account?{' '}
               <span
                 className="text-decoration-underline text-primary"

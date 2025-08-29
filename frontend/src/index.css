@@ -12,3 +12,35 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+:root {
+  --bg: #343541;
+  --text: #ffffff;
+  --bottext: #ffffff;
+  --usertext: #ffffff;
+  --userbg: #444654;
+  --chatbottombar:#444654;
+}
+
+
+/* Light Theme */
+[data-theme="light"] {
+  --bg: #ffffff;
+  --text: #000000;
+  --bottext: #000000;
+  --usertext: #000000;
+  --userbg: #ebecf7;
+  --chatbottombar:#ebecf7;
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+  --bg: #343541;
+  --text: #ffffff;
+  --bottext: #ffffff;
+  --usertext: #ffffff;
+  --userbg: #444654;
+  --chatbottombar:#444654;
+}
+
